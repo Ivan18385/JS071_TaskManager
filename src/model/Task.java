@@ -94,7 +94,7 @@ public class Task {
         this.taskType = taskType;
     }
 
-    public double planTime(){
-        return planTo + planFrom;
+    public double calculatePlanTime(){
+        return planTo - planFrom;
     }
 }

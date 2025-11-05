@@ -2,6 +2,7 @@ package view;
 
 import model.Task;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class TaskView {
@@ -15,8 +16,8 @@ public class TaskView {
 
     public void addTaskHeader() {
         System.out.println("\n----------------------------------------- Task ---------------------------------------");
-        System.out.printf("%-5s%-20s%-15s%-15s%-10s%-20s%-15s%-15s\n",
-                "ID", "Name", "Task Type", "Date", "Plan from", "Plan to", "Assignee", "Reviewer");
+        System.out.printf("%-5s %-20s %-15s %-15s %-10s %-10s %-15s\n",
+                "ID", "Name", "Task Type", "Date", "Time", "Assignee", "Reviewer");
     }
 
     public void addTaskFormHeader(){
@@ -30,13 +31,16 @@ public class TaskView {
     public void showUserInput(String input) {System.out.print(input); }
 
     public void showAllTask(List<Task> taskList){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
         for (Task task : taskList){
-            System.out.printf("%-5d %-20s %-15s %-15s %-10.1f %-10s %-15s",
+            System.out.printf("%-5d %-20s %-15s %-15s %-10.1f %-10s %-15s \n",
                     task.getId(),
                     task.getRequirementName(),
-                    task.getTaskType(),
-                    task.getDate(),
-                    task.planTime(),
+                    //lay ten task qua enum
+                    task.getTaskType().toString(),
+                    dateFormat.format(task.getDate()),
+                    task.calculatePlanTime(),
                     task.getAssignee(),
                     task.getReviewer());
         }
