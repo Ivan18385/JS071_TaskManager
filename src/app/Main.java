@@ -1,10 +1,13 @@
 package app;
 
+import constants.TaskType;
 import controller.TaskController;
+import model.Task;
 import util.Validation;
 import view.TaskView;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,18 +18,19 @@ public class Main {
 
     public static void main(String[] args) {
         view.displayMenu();
-
         while (true) {
             try {
                 view.showUserInput("Enter choice(1-4): ");
                 int choice = validate.validateInteger(scan.nextLine(), 1, 4, "Choice");
                 switch (choice) {
                     case 1:
-                        addTaskForm();
+                        handleAddTask();
                         break;
                     case 2:
+                        handleDeleteTask();
                         break;
                     case 3:
+                        handleDisplayTask();
                         break;
                     case 4:
                         view.showMessage("See you again!");
@@ -40,7 +44,8 @@ public class Main {
 
     }
 
-    public static void addTaskForm() {
+    //function 1
+    public static void handleAddTask() {
         view.addTaskFormHeader();
         while (true) {
             try {
@@ -69,13 +74,31 @@ public class Main {
 
                 view.showUserInput("Reviewer: ");
                 String reviewer = validate.checkString(scan.nextLine());
+                controller.addTask(requirementName, TaskType.fromId(taskType), date, planFrom, planTo, assignee, reviewer );
                 break;
             } catch (Exception e) {
-                view.showMessage("Error adding task: " + e.getMessage());
+                view.showMessage(e.getMessage());
             }
 
         }
     }
+
+    //funtion 2
+    public static void handleDeleteTask(){
+        view.showUserInput("Enter ID to delete: ");
+        int idToDelete = validate.validateInteger(scan.nextLine(), 1, 4, "ID");
+        controller.deleteTask(idToDelete);
+        view.showMessage("Delete completed !");
+    }
+
+    //function 3
+    public static void handleDisplayTask(){
+        List<Task> sortedTask =  controller.displayTaskAscendingId();
+        if (sortedTask.isEmpty()) throw new IllegalArgumentException("No Task to display");
+        view.addTaskHeader();
+        view.showAllTask(sortedTask);
+    }
+
 }
 
 
