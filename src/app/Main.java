@@ -75,6 +75,7 @@ public class Main {
                 view.showUserInput("Reviewer: ");
                 String reviewer = validate.checkString(scan.nextLine());
                 controller.addTask(requirementName, TaskType.fromId(taskType), date, planFrom, planTo, assignee, reviewer );
+                view.showMessage("Add task successful!");
                 break;
             } catch (Exception e) {
                 view.showMessage(e.getMessage());
